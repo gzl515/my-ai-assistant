@@ -1,37 +1,35 @@
-import Taro from '@tarojs/taro'
-import React from 'react'
-import { View } from '@tarojs/components'
+import { View, Text, Image } from '@tarojs/components'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import Taro, { useLoad } from '@tarojs/taro'
 
 import './index.css'
+import { AIType } from '@/typeMap/index'
 
-class Index extends React.Component {
-  state = {
-    loading: true,
-  }
-
-  async componentDidMount() {
-    try {
-      setTimeout(() => {
-        this.setState({
-          loading: false,
-        })
-      }, 3000)
-
-    } catch (error) {
-      Taro.showToast({
-        title: '载入远程数据错误',
-      })
-    }
-  }
-
-  render() {
-    const { loading } = this.state
-    return (
-      <View className="index">
-        index
-      </View>
-    )
-  }
+function onClick(route) {
+  Taro.navigateTo({
+    url: route.path,
+  })
 }
 
-export default Index
+export default function Index() {
+
+  useLoad(() => {
+    console.log('Page loaded.')
+  })
+
+  return (
+    <View className="index" >
+      {
+        AIType.map(route => (
+          <View key={route.tid} className='box' onClick={() => onClick(route)}>
+            <Image
+              className='icon'
+              src={route.tIcon}
+            />
+            <Text className='text'>{route.tName}</Text>
+          </View>
+        ))
+      }
+    </View>
+  )
+}

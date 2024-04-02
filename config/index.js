@@ -1,5 +1,8 @@
 // 默认配置
+
 import { defineConfig } from '@tarojs/cli'
+const path = require('path')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 
 import devConfig from './dev'
 import prodConfig from './prod'
@@ -7,45 +10,41 @@ import prodConfig from './prod'
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig(async (merge, { command, mode }) => {
   const baseConfig = {
-    // 项目名称
     projectName: 'MyAIAssistant',
-    // 项目创建日期
     date: '2024-3-27',
-    // 设计稿尺寸
     designWidth: 750,
-    // 设计稿尺寸换算规则
     deviceRatio: {
       640: 2.34 / 2,
       750: 1,
       375: 2,
       828: 1.81 / 2
     },
-    // 项目源码目录
     sourceRoot: 'src',
-    // 项目产出目录
     outputRoot: 'dist',
-    // Taro 插件配置
-    plugins: [],
-    // 全局变量设置
+    plugins: ['@tarojs/plugin-html',],
     defineConstants: {
+      'process.env': JSON.stringify(process.env)
     },
-    // 文件 copy 配置
     copy: {
       patterns: [
       ],
       options: {
       }
     },
-    // 框架，react，nerv，vue, vue3 等
     framework: 'react',
     compiler: 'webpack5',
     cache: {
-      enable: false // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
+      enable: true,  // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
+    },
+    alias: {
+      '@/assets': path.resolve(__dirname, '..', 'src/assets'),
+      '@/typeMap': path.resolve(__dirname, '..', 'src/typeMap'),
+      '@/pages': path.resolve(__dirname, '..', 'src/pages'),
+      '@/utils': path.resolve(__dirname, '..', 'src/utils'),
     },
     // 小程序端专用配置
     mini: {
       postcss: {
-        // 默认配置会对所有的 px 单位进行转换，有大写字母的 Px 或 PX 则会被忽略。
         pxtransform: {
           enable: true,
           config: {
@@ -90,6 +89,9 @@ export default defineConfig(async (merge, { command, mode }) => {
     h5: {
       publicPath: '/',
       staticDirectory: 'static',
+      router: {
+        mode: 'browser',
+      },
       output: {
         filename: 'js/[name].[hash:8].js',
         chunkFilename: 'js/[name].[chunkhash:8].js'
@@ -133,7 +135,14 @@ export default defineConfig(async (merge, { command, mode }) => {
         }
       },
       // 自定义 Webpack 配置
-      webpackChain(chain, webpack) { },
+      webpackChain(chain, webpack) {
+        chain.plugin('polyfills').use(NodePolyfillPlugin)
+        chain.resolve.fallback = {
+          "crypto": false,
+          "stream": false,
+        }
+        return chain;
+      },
       devServer: {},
     },
     rn: {

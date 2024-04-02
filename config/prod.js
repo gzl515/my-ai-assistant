@@ -1,5 +1,8 @@
 // 生产环境配置
 export default {
+  env: {
+    NODE_ENV: '"production"', // JSON.stringify('production')
+  },
   mini: {
     prerender: {
       include: ['pages/nodes/nodes'], // `pages/nodes/nodes` 也会参与 prerender

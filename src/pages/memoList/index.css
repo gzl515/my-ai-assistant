@@ -1,0 +1,36 @@
+.memoList {
+  padding: 20px 40px;
+  box-sizing: border-box;
+}
+
+
+.item {
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: antiquewhite;
+  margin: 15px auto;
+  padding: 10px 20px;
+  border-radius: 18px;
+}
+
+.name {
+  font-size: 40px;
+}
+
+.date {
+  display: inline-block;
+  font-size: 26px;
+  margin-right: 20px;
+}
+
+.type {
+  font-size: 40px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+}

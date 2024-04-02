@@ -1,0 +1,29 @@
+.index {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 20px;
+}
+
+.icon {
+  width: 256px;
+  border-radius: 256px;
+  margin-bottom: 20px;
+}
+.text {
+  display: block;
+  width: 60%;
+  text-align: center;
+  background-color: rgb(201, 201, 199);
+  border-radius: 20px;
+  color: #ffffff;
+}

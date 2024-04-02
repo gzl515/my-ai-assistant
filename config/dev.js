@@ -1,6 +1,8 @@
-// 开发环境配置
 export default {
-   logger: {
+  env: {
+    NODE_ENV: '"development"',
+  },
+  logger: {
     quiet: false,
     stats: true
   },

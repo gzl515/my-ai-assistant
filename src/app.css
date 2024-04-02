@@ -1,1 +1,8 @@
 /* 项目总通用样式 */
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
